@@ -1,21 +1,31 @@
 #pragma once
 
+#include <istream>
+
 namespace libcsv {
+template <typename T, std::size_t Nm>
 class reader final {
    public: // definitions
+    using container = std::array<T, Nm>;
+
    public: // ctors
-    reader(void) = default;
+    reader(std::istream& is, options opts = {});
 
-    reader(const reader&)                     = default;
-    auto operator =(const reader&) -> reader& = default;
+    reader(const reader&)                     = delete;
+    auto operator =(const reader&) -> reader& = delete;
 
-    reader(reader&&)                     = default;
-    auto operator =(reader&&) -> reader& = default;
+    reader(reader&&)                     = delete;
+    auto operator =(reader&&) -> reader& = delete;
 
-    ~reader(void) = default;
+    ~reader(void) = delete;
 
-   public:  // methods
+
+
+
+
    private: // methods
    private: // members
+    std::istream& _is;
+    std::optional<T> buffer {};
 };
 } // namespace libcsv
