@@ -1,6 +1,5 @@
 #include <cassert>
 #include <fstream>
-#include <iostream>
 
 #include "libcsv/reader.hxx"
 
@@ -30,7 +29,6 @@ auto TestStreamIgnoreMultiple(int, char**) -> int {
     r.ignore(2);
 
     const auto p {r.get()};
-    std::cout << p.value().name << std::endl;
     assert(p.has_value());
     assert(p.value().name == "Bob \"The Builder\"");
     assert(p.value().age == 40);
