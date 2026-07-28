@@ -174,14 +174,11 @@ class reader final {
         while (_is.eof()) co_yield get();
     }
 
-   private: // methods
    private: // members
     std::istream& _is;
-    std::optional<T> buffer {};
-};
+    options _opts {};
 
-template <typename T, std::size_t Nm>
-auto reader<T, Nm>::convert(reader<T, Nm>::container) -> T {
-    static_assert(true, "Missing convert function definition for type T");
-}
+    std::size_t _line {0};
+    std::optional<T> _buffer {};
+};
 } // namespace libcsv
