@@ -44,7 +44,85 @@ class reader final {
      * @return The next T or std::nullopt if eof
      */
     [[nodiscard]]
-    auto get(void) -> std::optional<T>;
+    auto get(void) -> std::optional<T> {
+        if (_is.eof())
+            return {};
+        else if (_buffer.has_value()) {
+            auto ret = _buffer;
+            _buffer  = {};
+            return _buffer = std::move(ret);
+        }
+
+        std::string row {};
+
+        // skip header
+        if (_line == 0 && _opts.hasHeader) {
+            std::getline(_is, row);
+
+            row.clear();
+            _line++;
+        }
+
+        // skip empty lines
+        while (!_is.eof()) {
+            std::getline(_is, row);
+            if (!row.empty()) break;
+
+            _line++;
+        }
+
+        if (row.empty()) return {};
+
+        container data {};
+        std::size_t index {};
+
+        auto offset {row.begin()};
+
+        while (index < Nm) {
+            if (offset == row.end()) break;
+
+            const auto start {offset};
+            auto end {row.end()};
+
+            // check for quoted value
+            if (*offset == _opts.quotation) {
+                while (true) {
+                    offset++;
+
+                    // check for row end
+                    if (offset == row.end())
+                        throw parse_error(std::format(
+                            "Missing closing quotation mark at line {}",
+                            _line));
+
+                    end = std::find(offset, row.end(), _opts.quotation);
+
+                    // check for missing quotation mark
+                    if (end == row.end())
+                        throw parse_error(std::format(
+                            "Missing closing quotation mark at line {}",
+                            _line));
+
+                    // check for escaped quotation mark
+                    if (*(end - 1) == '\\') {
+                        offset = end;
+                        continue;
+                    }
+
+                    offset = end == row.end() ? end : end + 1;
+                    break;
+                }
+
+            } else
+                end = std::find(offset, row.end(), _opts.separator);
+
+            data[index++] = start == end ? std::string {}
+                                         : std::string {start + 1, end - 1};
+        }
+
+        _line++;
+        return _buffer = std::move(convert(data));
+    }
 
     /**
      * @brief Peek the next T
