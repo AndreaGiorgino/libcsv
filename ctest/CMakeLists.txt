@@ -12,6 +12,8 @@ set(
     TestStreamPeek.cxx
     TestStreamIgnore.cxx
     TestStreamIgnoreMultiple.cxx
+    TestStreamTellg.cxx
+    TestStreamSeekg.cxx
 )
 
 create_test_sourcelist(
