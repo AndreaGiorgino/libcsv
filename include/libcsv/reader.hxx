@@ -147,7 +147,9 @@ class reader final {
      * @brief Get the stream offset
      */
     [[nodiscard]]
-    auto tellg(void) -> std::streamoff;
+    auto tellg(void) -> std::streamoff {
+        return _is.tellg();
+    }
 
     /**
      * @brief Set the stream offset
