@@ -9,6 +9,8 @@ set(
     TestLoadString.cxx
     TestLoadFile.cxx
     TestStreamGet.cxx
+    TestStreamPeek.cxx
+    TestStreamIgnore.cxx
 )
 
 create_test_sourcelist(
