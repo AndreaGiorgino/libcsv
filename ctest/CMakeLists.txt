@@ -7,6 +7,8 @@ cmake_minimum_required(VERSION 3.24)
 set(
     SOURCE_FILES
     TestLoadString.cxx
+    TestLoadFile.cxx
+    TestStreamGet.cxx
 )
 
 create_test_sourcelist(
@@ -18,8 +20,6 @@ create_test_sourcelist(
 #
 # Target
 #
-
-set(CMAKE_BUILD_TYPE Release)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -61,3 +61,5 @@ foreach(TEST_FILE ${SOURCE_FILES})
         COMMAND CommonCxxTests ${TEST_NAME}
     )
 endforeach()
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/PostBuild.cmake)
