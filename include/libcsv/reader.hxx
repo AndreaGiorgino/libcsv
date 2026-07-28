@@ -156,7 +156,7 @@ class reader final {
      *
      * @param streamoff The offset to set the file stream to
      */
-    auto seekg(std::streamoff streamoff) -> void;
+    auto seekg(std::streamoff streamoff) -> void { _is.seekg(streamoff); }
 
     /**
      * @brief Check if the stream has reached eof
