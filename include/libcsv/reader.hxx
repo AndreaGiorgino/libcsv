@@ -13,7 +13,11 @@ struct options final {
     char quotation {'"'};
 };
 
+template <std::size_t Nm>
+concept NonZero = (Nm > 0);
+
 template <typename T, std::size_t Nm>
+    requires NonZero<Nm>
 class reader final {
    public: // definitions
     using container = std::array<T, Nm>;
