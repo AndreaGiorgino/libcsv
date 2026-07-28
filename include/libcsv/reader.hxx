@@ -28,15 +28,15 @@ class reader final {
     }
 
    public: // ctors
-    reader(std::istream& is, options opts = {});
+    reader(std::istream& is, options opts = {}) : _is(is), _opts(opts) {}
 
-    reader(const reader&)                     = delete;
-    auto operator =(const reader&) -> reader& = delete;
+    reader(const reader&)                     = default;
+    auto operator =(const reader&) -> reader& = default;
 
-    reader(reader&&)                     = delete;
-    auto operator =(reader&&) -> reader& = delete;
+    reader(reader&&)                     = default;
+    auto operator =(reader&&) -> reader& = default;
 
-    ~reader(void) = delete;
+    ~reader(void) = default;
 
    public: // methods
     /**
