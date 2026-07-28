@@ -62,8 +62,8 @@ class reader final {
         if (_is.eof())
             return {};
         else if (_buffer.has_value()) {
-            auto ret = _buffer;
-            _buffer  = {};
+            auto ret       = _buffer;
+            _buffer        = {};
             return _buffer = std::move(ret);
         }
 
@@ -100,9 +100,8 @@ class reader final {
 
             // check for quoted value
             if (*offset == _opts.quotation) {
+                offset++;
                 while (true) {
-                    offset++;
-
                     // check for row end
                     if (offset == row.end())
                         throw parse_error(std::format(
@@ -119,19 +118,39 @@ class reader final {
 
                     // check for escaped quotation mark
                     if (*(end - 1) == '\\') {
-                        offset = end;
+                        offset = end + 1;
                         continue;
                     }
 
-                    offset = end == row.end() ? end : end + 1;
+                    // check for double quotation mark
+                    if (*(end + 1) == _opts.quotation) {
+                        offset = end + 2;
+                        continue;
+                    }
+
+                    offset = (end + 1) == row.end() ? row.end() : end + 2;
                     break;
                 }
 
-            } else
-                end = std::find(offset, row.end(), _opts.separator);
+                auto buffer = start == end ? std::string {}
+                                           : std::string {start + 1, end};
 
-            data[index++] = start == end ? std::string {}
-                                         : std::string {start + 1, end - 1};
+                std::size_t innerPos {};
+                while ((innerPos = buffer.find(_opts.quotation, innerPos))
+                       != std::string::npos) {
+                    buffer.replace(innerPos - 1, 1, "");
+                    innerPos++;
+                }
+
+                data[index++] = std::move(buffer);
+
+            } else {
+                end    = std::find(offset, row.end(), _opts.separator);
+                offset = end == row.end() ? end : end + 1;
+
+                data[index++]
+                    = start == end ? std::string {} : std::string {start, end};
+            }
         }
 
         _line++;
