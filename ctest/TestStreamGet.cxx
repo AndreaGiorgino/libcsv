@@ -1,6 +1,5 @@
 #include <cassert>
 #include <fstream>
-#include <iostream>
 
 #include "libcsv/reader.hxx"
 
@@ -24,21 +23,22 @@ inline auto reader<person, 4>::convert(container data) -> person {
 }
 
 auto TestStreamGet(int, char**) -> int {
-    try {
-        std::ifstream ifs {"test-files/sample-data.csv"};
+    std::ifstream ifs {"test-files/sample-data.csv"};
+    reader<person, 4> r {ifs};
 
-        reader<person, 4> r {ifs};
-        const auto p {r.get()};
+    const auto p1 {r.get()};
+    assert(p1.has_value());
+    assert(p1.value().age == 30);
+    assert(p1.value().name == "Smith, John");
+    assert(p1.value().city == "New York");
+    assert(p1.value().bio == "Loves coding, reading, and \"coffee\"");
 
-        assert(p.has_value());
-        assert(p.value().age == 30);
-        assert(p.value().name == "Smith, John");
-        assert(p.value().city == "New York");
-        assert(p.value().bio == "Loves coding, reading, and \"coffee\"");
-    } catch (std::exception& e) {
-        std::cerr << e.what() << std::endl;
-        return 1;
-    }
+    const auto p2 {r.get()};
+    assert(p2.has_value());
+    assert(p2.value().name == "Alice");
+    assert(p2.value().age == 25);
+    assert(p2.value().city == "London");
+    assert(p2.value().bio == "Software Engineer");
 
     return 0;
 }
