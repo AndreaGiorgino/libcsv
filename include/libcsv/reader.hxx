@@ -137,9 +137,11 @@ class reader final {
     /**
      * @brief Ignore the next T/s
      *
-     * @param n The number of tokens to ignore
+     * @param n The number of T/s to ignore
      */
-    auto ignore(size_t n = 1) -> void;
+    auto ignore(std::size_t n = 1) -> void {
+        for (std::size_t i {}; i < n; i++) (void)get();
+    }
 
     /**
      * @brief Get the stream offset
