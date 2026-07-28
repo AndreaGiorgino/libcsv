@@ -22,8 +22,10 @@ class reader final {
    public: // definitions
     using container = std::array<std::string, Nm>;
 
-
-    auto convert(container row) -> T;
+    auto convert(container) -> T {
+        static_assert(
+            sizeof(T) == 0, "Missing convert function definition for type T");
+    }
 
    public: // ctors
     reader(std::istream& is, options opts = {});
