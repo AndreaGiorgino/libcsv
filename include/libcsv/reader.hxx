@@ -61,8 +61,7 @@ class reader final {
     auto get(void) -> std::optional<T> {
         if (_is.eof()) return {};
 
-        if (_buffer.has_value() && _is.tellg() == _bufferPos)
-            return _buffer;
+        if (_buffer.has_value() && _is.tellg() == _bufferPos) return _buffer;
 
         _bufferPos = _is.tellg();
         std::string row {};
@@ -136,7 +135,10 @@ class reader final {
                 std::size_t innerPos {};
                 while ((innerPos = buffer.find(_opts.quotation, innerPos))
                        != std::string::npos) {
-                    buffer.replace(innerPos - 1, 1, "");
+                    if (innerPos != 0 && buffer[innerPos - 1] == '\\')
+                        buffer.replace(innerPos - 1, 1, "");
+                    else
+                        buffer.replace(innerPos, 1, "");
                     innerPos++;
                 }
 
