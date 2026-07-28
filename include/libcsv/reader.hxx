@@ -1,18 +1,23 @@
 #pragma once
 
+#include <format>
 #include <generator>
 #include <istream>
 
+#include "libcsv/parse_error.hxx"
+
 namespace libcsv {
+struct options final {
+    bool hasHeader {true};
+    char separator {','};
+    char quotation {'"'};
+};
+
 template <typename T, std::size_t Nm>
 class reader final {
    public: // definitions
     using container = std::array<T, Nm>;
 
-    struct options final {
-        char separator {','};
-        char quotation {'"'};
-    };
 
     auto convert(container row) -> T;
 
