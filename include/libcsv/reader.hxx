@@ -177,6 +177,7 @@ class reader final {
      */
     auto ignore(std::size_t n = 1) -> void {
         for (std::size_t i {}; i < n; i++) (void)get();
+        _buffer = {};
     }
 
     /**
@@ -192,7 +193,11 @@ class reader final {
      *
      * @param streamoff The offset to set the file stream to
      */
-    auto seekg(std::streamoff streamoff) -> void { _is.seekg(streamoff); }
+    auto seekg(std::streamoff streamoff) -> void {
+        _is.seekg(streamoff);
+        _bufferPos = streamoff;
+        _buffer = {};
+    }
 
     /**
      * @brief Check if the stream has reached eof
