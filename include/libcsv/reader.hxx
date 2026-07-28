@@ -40,7 +40,9 @@ class reader final {
     }
 
    public: // ctors
-    reader(std::istream& is, options opts = {}) : _is(is), _opts(opts) {}
+    reader(std::istream& is, options opts = {}) : _is(is), _opts(opts) {
+        if (!is) throw std::runtime_error("Invalid stream provided");
+    }
 
     reader(const reader&)                     = default;
     auto operator =(const reader&) -> reader& = default;
