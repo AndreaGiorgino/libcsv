@@ -7,6 +7,11 @@
 #include "libcsv/parse_error.hxx"
 
 namespace libcsv {
+/**
+ * @struct options
+ * @brief Represent the CSV reader parse options
+ *
+ */
 struct options final {
     bool hasHeader {true};
     char separator {','};
@@ -16,12 +21,18 @@ struct options final {
 template <std::size_t Nm>
 concept NonZero = (Nm > 0);
 
+/**
+ * @brief Represents the CSV interface
+ */
 template <typename T, std::size_t Nm>
     requires NonZero<Nm>
 class reader final {
    public: // definitions
     using container = std::array<std::string, Nm>;
 
+    /**
+     * @brief Convert the CSV row values into T
+     */
     auto convert(container) -> T {
         static_assert(
             sizeof(T) == 0, "Missing convert function definition for type T");
