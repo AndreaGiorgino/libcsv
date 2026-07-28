@@ -162,7 +162,9 @@ class reader final {
      * @brief Check if the stream has reached eof
      */
     [[nodiscard]]
-    auto eof(void) const -> bool;
+    auto eof(void) const -> bool {
+        return _is.eof();
+    }
 
     /**
      * @brief Get the T/s in a sequence
