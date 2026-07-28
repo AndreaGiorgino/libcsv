@@ -59,14 +59,12 @@ class reader final {
      */
     [[nodiscard]]
     auto get(void) -> std::optional<T> {
-        if (_is.eof())
-            return {};
-        else if (_buffer.has_value()) {
-            auto ret       = _buffer;
-            _buffer        = {};
-            return _buffer = std::move(ret);
-        }
+        if (_is.eof()) return {};
 
+        if (_buffer.has_value() && _is.tellg() == _bufferPos)
+            return _buffer;
+
+        _bufferPos = _is.tellg();
         std::string row {};
 
         // skip header
@@ -163,8 +161,11 @@ class reader final {
      */
     [[nodiscard]]
     auto peek(void) -> std::optional<T> {
-        if (_buffer.has_value()) return _buffer;
-        return get();
+        const auto start {_is.tellg()};
+        auto buffer {_buffer.has_value() ? _buffer : get()};
+
+        _is.seekg(start);
+        return std::move(buffer);
     }
 
     /**
@@ -212,6 +213,7 @@ class reader final {
     options _opts {};
 
     std::size_t _line {0};
+    std::streamoff _bufferPos {_is.tellg()};
     std::optional<T> _buffer {};
 };
 } // namespace libcsv
