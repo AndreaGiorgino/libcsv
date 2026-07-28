@@ -35,7 +35,8 @@ class reader final {
      */
     auto convert(container) -> T {
         static_assert(
-            sizeof(T) == 0, "Missing convert function definition for type T");
+            sizeof(T) != 0, "Missing convert function definition for type T");
+        return {};
     }
 
    public: // ctors
