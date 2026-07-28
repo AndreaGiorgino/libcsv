@@ -129,7 +129,10 @@ class reader final {
      * @return The next T or std::nullopt if eof
      */
     [[nodiscard]]
-    auto peek(void) -> std::optional<T>;
+    auto peek(void) -> std::optional<T> {
+        if (_buffer.has_value()) return _buffer;
+        return get();
+    }
 
     /**
      * @brief Ignore the next T/s
