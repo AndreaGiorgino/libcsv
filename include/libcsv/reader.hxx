@@ -59,7 +59,7 @@ class reader final {
      */
     [[nodiscard]]
     auto get(void) -> std::optional<T> {
-        if (_is.eof()) return {};
+        if (_is.eof()) return std::nullopt;
 
         if (_buffer.has_value() && _is.tellg() == _bufferPos) return _buffer;
 
@@ -177,7 +177,7 @@ class reader final {
      */
     auto ignore(std::size_t n = 1) -> void {
         for (std::size_t i {}; i < n; i++) (void)get();
-        _buffer = {};
+        _buffer = std::nullopt;
     }
 
     /**
@@ -196,7 +196,7 @@ class reader final {
     auto seekg(std::streamoff streamoff) -> void {
         _is.seekg(streamoff);
         _bufferPos = streamoff;
-        _buffer = {};
+        _buffer    = {};
     }
 
     /**
