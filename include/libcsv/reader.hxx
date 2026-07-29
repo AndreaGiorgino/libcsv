@@ -102,16 +102,16 @@ class reader final {
                     // check for row end
                     if (offset == row.end())
                         throw parse_error(std::format(
-                            "Missing closing quotation mark at line {}",
-                            _line));
+                            "Missing closing quotation mark at position {}",
+                            _bufferPos));
 
                     end = std::find(offset, row.end(), _opts.quotation);
 
                     // check for missing quotation mark
                     if (end == row.end())
                         throw parse_error(std::format(
-                            "Missing closing quotation mark at line {}",
-                            _line));
+                            "Missing closing quotation mark at position {}",
+                            _bufferPos));
 
                     // check for escaped quotation mark
                     if (*(end - 1) == '\\') {
@@ -153,7 +153,6 @@ class reader final {
             }
         }
 
-        _line++;
         return _buffer = std::move(convert(data));
     }
 
@@ -219,7 +218,6 @@ class reader final {
     std::istream& _is;
     options _opts {};
 
-    std::size_t _line {0};
     std::streamoff _bufferPos {_is.tellg()};
     std::optional<T> _buffer {};
 };
