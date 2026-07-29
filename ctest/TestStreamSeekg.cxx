@@ -26,7 +26,7 @@ auto TestStreamSeekg(int, char**) -> int {
     std::ifstream ifs {"test-files/sample-data.csv"};
     reader<person, 4> r {ifs};
 
-    r.seekg(85);
+    r.seekg(86);
 
     const auto p {r.get()};
     assert(p.has_value());
