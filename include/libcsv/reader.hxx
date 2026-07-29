@@ -67,22 +67,10 @@ class reader final {
         std::string row {};
 
         // skip header
-        if (_line == 0 && _opts.hasHeader) {
-            std::getline(_is, row);
+        if (_bufferPos == 0 && _opts.hasHeader) std::getline(_is, row);
 
-            row.clear();
-            _line++;
-        }
-
-        // skip empty lines
-        while (!_is.eof()) {
-            std::getline(_is, row);
-            if (!row.empty()) break;
-
-            _line++;
-        }
-
-        if (row.empty()) return {};
+        std::getline(_is, row);
+        if (row.empty()) return std::nullopt;
 
         container data {};
         std::size_t index {};
