@@ -198,7 +198,7 @@ class reader final {
      * @brief Get the T/s in a sequence
      */
     [[nodiscard]]
-    auto rows(void) -> std::generator<T> {
+    auto rows(void) -> std::generator<std::optional<T>> {
         while (_is.eof()) co_yield get();
     }
 
