@@ -45,13 +45,26 @@ cd example
 ## Usage
 
 ```cpp
-/*
- * main.cxx
- */
+using namespace libcsv;
 
-#include <iostream>
+struct person { ... };
 
-auto main(void) -> int {
+template <>
+inline auto reader<person, 4>::convert(container data) -> person {
+    return { ... };
+}
+
+auto main(int, char**) -> int {
+    std::stringstream ss {
+        R"("Smith, John",30,"New York","Loves coding, reading, and \"coffee\"")"};
+
+    reader<person, 4> r {ss};
+
+    const auto opt {r.get()};
+    const auto& p {opt.value_or({})};
+
+    ...
+
     return 0;
 }
 ```
