@@ -22,18 +22,18 @@ inline auto reader<person, 4>::convert(container data) -> person {
     };
 }
 
-auto TestStreamIgnoreMultiple(int, char**) -> int {
-    std::ifstream ifs {"test-files/sample-data.csv"};
+auto TestStreamSeekg(int, char**) -> int {
+    std::ifstream ifs {"TestFiles/sample-data.csv"};
     reader<person, 4> r {ifs};
 
-    r.ignore(2);
+    r.seekg(86);
 
     const auto p {r.get()};
     assert(p.has_value());
-    assert(p.value().name == "Bob \"The Builder\"");
-    assert(p.value().age == 40);
-    assert(p.value().city == "Los Angeles");
-    assert(p.value().bio == "");
+    assert(p.value().name == "Alice");
+    assert(p.value().age == 25);
+    assert(p.value().city == "London");
+    assert(p.value().bio == "Software Engineer");
 
     return 0;
 }

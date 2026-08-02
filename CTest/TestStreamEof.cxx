@@ -13,7 +13,7 @@ inline auto reader<empty, 4>::convert(container) -> empty {
 }
 
 auto TestStreamEof(int, char**) -> int {
-    std::ifstream ifs {"test-files/sample-data.csv"};
+    std::ifstream ifs {"TestFiles/sample-data.csv"};
     reader<empty, 4> r {ifs};
 
     while (r.get() != std::nullopt);

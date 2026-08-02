@@ -22,23 +22,31 @@ inline auto reader<person, 4>::convert(container data) -> person {
     };
 }
 
-auto TestStreamGet(int, char**) -> int {
-    std::ifstream ifs {"test-files/sample-data.csv"};
+auto TestStreamPeek(int, char**) -> int {
+    std::ifstream ifs {"TestFiles/sample-data.csv"};
+
     reader<person, 4> r {ifs};
 
-    const auto p1 {r.get()};
+    const auto p1 {r.peek()};
     assert(p1.has_value());
-    assert(p1.value().age == 30);
     assert(p1.value().name == "Smith, John");
+    assert(p1.value().age == 30);
     assert(p1.value().city == "New York");
     assert(p1.value().bio == "Loves coding, reading, and \"coffee\"");
 
     const auto p2 {r.get()};
     assert(p2.has_value());
-    assert(p2.value().name == "Alice");
-    assert(p2.value().age == 25);
-    assert(p2.value().city == "London");
-    assert(p2.value().bio == "Software Engineer");
+    assert(p2.value().name == p1.value().name);
+    assert(p2.value().age == p1.value().age);
+    assert(p2.value().city == p1.value().city);
+    assert(p2.value().bio == p1.value().bio);
+
+    const auto p3 {r.peek()};
+    assert(p3.has_value());
+    assert(p3.value().name == p2.value().name);
+    assert(p3.value().age == p2.value().age);
+    assert(p3.value().city == p2.value().city);
+    assert(p3.value().bio == p2.value().bio);
 
     return 0;
 }

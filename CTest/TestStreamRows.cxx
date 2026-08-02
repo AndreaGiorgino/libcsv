@@ -43,7 +43,7 @@ const std::vector<person> expected {
 };
 
 auto TestStreamRows(int, char**) -> int {
-    std::ifstream ifs {"test-files/sample-data.csv"};
+    std::ifstream ifs {"TestFiles/sample-data.csv"};
     reader<person, 4> r {ifs};
 
     std::size_t i {};

@@ -22,11 +22,11 @@ inline auto reader<person, 4>::convert(container data) -> person {
     };
 }
 
-auto TestStreamSeekg(int, char**) -> int {
-    std::ifstream ifs {"test-files/sample-data.csv"};
+auto TestStreamIgnore(int, char**) -> int {
+    std::ifstream ifs {"TestFiles/sample-data.csv"};
     reader<person, 4> r {ifs};
 
-    r.seekg(86);
+    r.ignore();
 
     const auto p {r.get()};
     assert(p.has_value());

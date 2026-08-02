@@ -8,5 +8,5 @@ endif()
 
 if(CSV_BUILD_TESTING)
     enable_testing()
-    add_subdirectory(ctest)
+    add_subdirectory(CTest)
 endif()

@@ -13,7 +13,7 @@ inline auto reader<empty, 1>::convert(container) -> empty {
 }
 
 auto TestStreamMalformed(int, char**) -> int {
-    std::ifstream ifs {"test-files/malformed-data.csv"};
+    std::ifstream ifs {"TestFiles/malformed-data.csv"};
     reader<empty, 4> r {ifs};
 
     try {

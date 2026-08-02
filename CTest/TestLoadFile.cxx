@@ -12,7 +12,7 @@ inline auto reader<empty, 1>::convert(container) -> empty {
 }
 
 auto TestLoadFile(int, char**) -> int {
-    std::ifstream ifs {"test-files/sample-data.csv"};
+    std::ifstream ifs {"TestFiles/sample-data.csv"};
     reader<empty, 1> r {ifs};
 
     return 0;

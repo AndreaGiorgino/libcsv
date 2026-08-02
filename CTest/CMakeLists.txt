@@ -70,4 +70,4 @@ foreach(TEST_FILE ${SOURCE_FILES})
     )
 endforeach()
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/PostBuild.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/PostBuild.cmake)

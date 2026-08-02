@@ -10,7 +10,7 @@ project(
 # Dependencies
 #
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Options.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/Options.cmake)
 
 #
 # Target
@@ -47,4 +47,4 @@ target_include_directories(
         $<INSTALL_INTERFACE:include>
 )
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/PostBuild.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/PostBuild.cmake)
