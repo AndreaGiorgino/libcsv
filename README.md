@@ -37,8 +37,7 @@ cmake -B build \
     -DCSV_BUILD_EXAMPLE=ON \
     && cmake --build build --parallel $(($(nproc) - 1))
 
-cd example
-./build/example
+./build/example/example
 ```
 
 
