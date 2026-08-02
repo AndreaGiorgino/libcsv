@@ -14,6 +14,8 @@ set(
     TestStreamIgnoreMultiple.cxx
     TestStreamTellg.cxx
     TestStreamSeekg.cxx
+    TestStreamEof.cxx
+    TestStreamRows.cxx
 )
 
 create_test_sourcelist(
