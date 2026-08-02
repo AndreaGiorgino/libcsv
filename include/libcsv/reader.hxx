@@ -63,11 +63,12 @@ class reader final {
 
         if (_buffer.has_value() && _is.tellg() == _bufferPos) return _buffer;
 
-        _bufferPos = _is.tellg();
         std::string row {};
 
         // skip header
-        if (_bufferPos == 0 && _opts.hasHeader) std::getline(_is, row);
+        if (_is.tellg() == 0 && _opts.hasHeader) std::getline(_is, row);
+
+        _bufferPos = _is.tellg();
 
         std::getline(_is, row);
         if (row.empty()) return std::nullopt;
@@ -84,22 +85,32 @@ class reader final {
             auto end {row.end()};
 
             // check for quoted value
-            if (*offset == _opts.quotation) {
+            if (*start == _opts.quotation) {
                 offset++;
                 while (true) {
                     // check for row end
-                    if (offset == row.end())
+                    if (offset == row.end()) {
+                        _is.seekg(
+                            _bufferPos + std::distance(row.begin(), start) + 1);
+                        _bufferPos = _is.tellg();
+
                         throw parse_error(std::format(
                             "Missing closing quotation mark at position {}",
                             _bufferPos));
+                    }
 
                     end = std::find(offset, row.end(), _opts.quotation);
 
                     // check for missing quotation mark
-                    if (end == row.end())
+                    if (end == row.end()) {
+                        _is.seekg(
+                            _bufferPos + std::distance(row.begin(), start) + 1);
+                        _bufferPos = _is.tellg();
+
                         throw parse_error(std::format(
                             "Missing closing quotation mark at position {}",
                             _bufferPos));
+                    }
 
                     // check for escaped quotation mark
                     if (*(end - 1) == '\\') {
@@ -131,7 +142,6 @@ class reader final {
                 }
 
                 data[index++] = std::move(buffer);
-
             } else {
                 end    = std::find(offset, row.end(), _opts.separator);
                 offset = end == row.end() ? end : end + 1;
