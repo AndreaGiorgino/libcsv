@@ -48,3 +48,7 @@ target_include_directories(
 )
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/PostBuild.cmake)
+
+if(CSV_BUILD_EXAMPLE)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/example)
+endif()

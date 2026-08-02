@@ -1,5 +1,6 @@
 option(DEBUG "Enable debug build." OFF)
 option(CSV_BUILD_TESTING "Enable testing and build tests." OFF)
+option(CSV_BUILD_EXAMPLE "Build example." OFF)
 
 if(DEBUG)
     add_compile_definitions(DEBUG)
