@@ -199,7 +199,7 @@ class reader final {
      */
     [[nodiscard]]
     auto rows(void) -> std::generator<std::optional<T>> {
-        while (_is.eof()) co_yield get();
+        while (get() != std::nullopt) co_yield _buffer;
     }
 
    private: // members
@@ -207,6 +207,6 @@ class reader final {
     options _opts {};
 
     std::streamoff _bufferPos {_is.tellg()};
-    std::optional<T> _buffer {};
+    std::optional<T> _buffer {std::nullopt};
 };
 } // namespace libcsv
