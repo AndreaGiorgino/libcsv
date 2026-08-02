@@ -16,6 +16,7 @@ set(
     TestStreamSeekg.cxx
     TestStreamEof.cxx
     TestStreamRows.cxx
+    TestStreamMalformed.cxx
 )
 
 create_test_sourcelist(
