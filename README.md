@@ -16,7 +16,7 @@ CSV interface library in Cpp23
 
 ```bash
 git clone https://github.com/giorgi.page/libcsv
-cd libtokenizer
+cd libcsv
 
 ./build.sh
 ```
